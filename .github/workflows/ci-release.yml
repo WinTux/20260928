@@ -4,8 +4,11 @@ on:
     branches: [ main ]
     tags:
       - 'v*'
+
 jobs:
   build-test-release:
+    permissions:
+      contents: write
     runs-on: ubuntu-24.04
     steps:
       - name: Checkout
