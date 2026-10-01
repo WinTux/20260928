@@ -18,8 +18,49 @@ jobs:
         with:
             distribution: 'temurin'
             java-version: '25'
-      - name: Compilar el proyecto con tests
-        run: mvn clean verify
+      - name: Compilar el proyecto
+        run: mvn clean package -DskipTests
+      - name: Arrancar Modulo A
+        run: |
+            nohup java -jar moduloa/target/moduloa-0.0.1-SNAPSHOT.jar \
+            > moduloa.log 2>&1 &
+
+      - name: Esperar Modulo A
+        run: |
+                for i in {1..30}; do
+                  if curl -fs http://localhost:8080/saludo; then
+                    echo "Modulo A está disponible"
+                    break
+                  fi
+                
+                  echo "Esperando Modulo A..."
+                  sleep 2
+                done
+                
+                curl -fs http://localhost:8080/saludo
+
+      - name: Arrancar Modulo B
+        run: |
+                nohup java -jar modulob/target/modulob-0.0.1-SNAPSHOT.jar \
+                  > modulob.log 2>&1 &
+
+      - name: Esperar Modulo B
+        run: |
+                for i in {1..30}; do
+                  if curl -fs http://localhost:8081/saludo; then
+                    echo "Modulo B está disponible"
+                    break
+                  fi
+                
+                  echo "Esperando Modulo B..."
+                  sleep 2
+                done
+                
+                curl -fs http://localhost:8081/saludo
+
+      - name: Ejecutar tests
+        run: mvn test
+
       - name: Crear release y subir assets
         if: startsWith(github.ref, 'refs/tags/v')
         uses: softprops/action-gh-release@v3.0.0
