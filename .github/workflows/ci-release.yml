@@ -28,7 +28,7 @@ jobs:
       - name: Esperar Modulo A
         run: |
                 for i in {1..30}; do
-                  if curl -fs http://localhost:8080/saludo; then
+                  if curl -fs http://localhost:8081/saludo; then
                     echo "Modulo A está disponible"
                     break
                   fi
@@ -37,7 +37,7 @@ jobs:
                   sleep 2
                 done
                 
-                curl -fs http://localhost:8080/saludo
+                curl -fs http://localhost:8081/saludo
 
       - name: Arrancar Modulo B
         run: |
@@ -47,7 +47,7 @@ jobs:
       - name: Esperar Modulo B
         run: |
                 for i in {1..30}; do
-                  if curl -fs http://localhost:8081/saludo; then
+                  if curl -fs http://localhost:8082/consume-a; then
                     echo "Modulo B está disponible"
                     break
                   fi
@@ -56,7 +56,7 @@ jobs:
                   sleep 2
                 done
                 
-                curl -fs http://localhost:8081/saludo
+                curl -fs http://localhost:8082/consume-a
 
       - name: Ejecutar tests
         run: mvn test
