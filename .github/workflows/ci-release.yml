@@ -77,8 +77,8 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         with:
-          tag_name: v3.0.1
-          release_name: "Release v3.0.1"
+          tag_name: v3.0.3
+          release_name: "Release v3.0.3"
           draft: 'false'
           prerelease: 'false'
       - name: Upload de un asset en el release (usando upload-release-asset)
@@ -96,11 +96,11 @@ jobs:
       # Otra alternativa
       - name: Creando release con Github CLI
         run: |
-          gh release create v3.0.1 \
+          gh release create v3.0.4 \
           ./moduloa/target/*.jar \
           ./modulob/target/*.jar \
           ./moduloc/target/*.jar \
-          --title "Release modo 3 v3.0.2" \
+          --title "Release modo 3 v3.0.4" \
           --notes "Release con todos los microservicios compilados."
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
