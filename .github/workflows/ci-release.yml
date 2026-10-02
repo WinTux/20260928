@@ -71,6 +71,25 @@ jobs:
             moduloc/target/moduloc-0.0.1-SNAPSHOT.jar
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      - name: Creando el release en Github
+        id: create_release
+        uses: actions/create-release@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          tag_name: v3.0.0
+          release_name: "Release v3.0.0"
+          draft: 'false'
+          prerelease: 'false'
+      - name: Upload de un asset en el release (usando upload-release-asset)
+        uses: actions/upload-release-asset@v1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        with:
+          upload_url: ${{ steps.create_release.outputs.upload_url }}
+          asset_path: ./moduloa/target/moduloa-0.0.1-SNAPSHOT.jar
+          asset_name: ModuloA.jar
+          asset_content_type: application/java-archive
 
   generar-artifacts:
     runs-on: ubuntu-latest
