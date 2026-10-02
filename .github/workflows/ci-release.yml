@@ -106,3 +106,10 @@ jobs:
           path: ./ejecutables
       - name: Mostrando JARs descargados
         run: ls -R ./ejecutables
+      - name: Download de un JAR (ejemplo)
+        uses: actions/download-artifact@v8.0.1
+        with:
+          name: modulo_a
+          path: ./ejecutable_modulo_a
+      - name: Mostrando JARs descargados
+        run: ls -R ./ejecutable_modulo_a
